@@ -34,7 +34,7 @@ func main() {
 	}
 
 	brokerList := strings.Split(*brokers, ",")
-	log.Printf("Kafka brokers: %s", strings.Join(brokerList, ", "))
+	//log.Printf("Kafka brokers: %s", strings.Join(brokerList, ", "))
 
 	//producer
 	config := sarama.NewConfig()
