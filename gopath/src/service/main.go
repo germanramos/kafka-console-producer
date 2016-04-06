@@ -46,8 +46,8 @@ func main() {
 		producer, err = sarama.NewSyncProducer(brokerList, config)
 		if err != nil {
 			log.Println("Failed to start Sarama producer:", err)
+			time.Sleep(time.Second * 3)
 		}
-		time.Sleep(time.Second * 3)
 	}
 
 	scanner := bufio.NewScanner(os.Stdin)
