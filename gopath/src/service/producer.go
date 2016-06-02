@@ -65,4 +65,5 @@ func producer(kafkaService string,
 		}
 		producer.Input() <- msg
 	}
+	_ = producer.Close()
 }
