@@ -12,7 +12,8 @@ kafka-console-producer implemented in golang and using [sarama](https://github.c
 - Very easy to configure trough environment variables
 - Auto discover kafka peers from DNS name
 - Waits for kafka to be ready
-- Auto reconnect
+- Auto reconnect, and retry in case of error
+- Log to stderr faulty messages
 
 ## Usage
 
