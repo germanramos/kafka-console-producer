@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"log"
 	"os"
 )
@@ -13,7 +14,13 @@ func main() {
 		topic        = getConfig("TOPIC", "mytopic")       // The topic to consume
 		verbose      = getConfig("VERBOSE", "false")       // Set to `true` if you want to turn on sarama logging
 	)
-	producer(kafkaService, kafkaPort, topic, verbose == "true")
+	var messages chan string
+	saramaProducer := producer(kafkaService, kafkaPort, topic, messages, verbose == "true")
+	scanner := bufio.NewScanner(os.Stdin)
+	for scanner.Scan() {
+		messages <- scanner.Text()
+	}
+	_ = saramaProducer.Close()
 }
 
 func getConfig(key string, defaultValue string) string {

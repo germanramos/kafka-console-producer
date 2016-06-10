@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"log"
 	"net"
@@ -14,7 +13,8 @@ import (
 func producer(kafkaService string,
 	kafkaPort string,
 	topic string,
-	verbose bool) {
+	messages chan string,
+	verbose bool) sarama.AsyncProducer {
 
 	var (
 		err        error
@@ -61,8 +61,6 @@ func producer(kafkaService string,
 		}
 	}
 
-	scanner := bufio.NewScanner(os.Stdin)
-
 	// log failed messages
 	go func() {
 		for {
@@ -73,12 +71,17 @@ func producer(kafkaService string,
 	}()
 
 	// Read stdin for ever and publish messages
-	for scanner.Scan() {
-		msg := &sarama.ProducerMessage{
-			Topic: topic,
-			Value: sarama.StringEncoder(scanner.Text()),
+	go func() {
+		for {
+			msg := <-messages
+			producerMessage := &sarama.ProducerMessage{
+				Topic: topic,
+				Value: sarama.StringEncoder(msg),
+			}
+			producer.Input() <- producerMessage
 		}
-		producer.Input() <- msg
-	}
-	_ = producer.Close()
+	}()
+
+	return producer
+
 }
