@@ -37,7 +37,7 @@ https://github.com/germanramos/kafka-console-producer/releases/download/v0.3.0/k
 ## Run Example
 
 ```
-KAFKA_SERVICE=192.168.1.45 TOPIC=foo ./kafka-console-consumer
+KAFKA_SERVICE=192.168.1.45 TOPIC=foo ./kafka-console-producer
 ```
 
 ## Related work
