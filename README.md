@@ -40,7 +40,6 @@ https://github.com/germanramos/kafka-console-producer/releases/download/v0.3.0/k
 KAFKA_SERVICE=192.168.1.45 TOPIC=foo ./kafka-console-producer
 >This is my message 1
 >This is my message 2
-...
 ```
 
 ## Related work
