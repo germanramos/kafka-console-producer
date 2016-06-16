@@ -1,4 +1,4 @@
-### kafka-console-producer
+# kafka-console-producer
 
 kafka-console-producer implemented in golang and using [sarama](https://github.com/Shopify/sarama) driver.
 
@@ -37,7 +37,10 @@ https://github.com/germanramos/kafka-console-producer/releases/download/v0.3.0/k
 ## Run Example
 
 ```
-KAFKA_SERVICE=192.168.1.45 TOPIC=foo ./kafka-console-consumer
+KAFKA_SERVICE=192.168.1.45 TOPIC=foo ./kafka-console-producer
+>This is my message 1
+>This is my message 2
+...
 ```
 
 ## Related work
