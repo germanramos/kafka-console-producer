@@ -18,7 +18,12 @@ func main() {
 	saramaProducer := producer(kafkaService, kafkaPort, topic, messages, verbose == "true")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
-		messages <- scanner.Text()
+		event := scanner.Text()
+		if event != "" {
+			messages <- scanner.Text()
+		} else {
+			log.Print("Discarting empty line")
+		}
 	}
 	_ = saramaProducer.Close()
 }
