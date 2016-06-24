@@ -8,6 +8,7 @@ import (
 
 func main() {
 	log.SetOutput(os.Stderr)
+	log.Print("kafka-console-producer v0.5.0")
 	var (
 		kafkaService = getConfig("KAFKA_SERVICE", "kafka") // The DNS name for input Kafka broker service
 		kafkaPort    = getConfig("KAFKA_PORT", "9092")     // Port to connect to input Kafka peers
