@@ -14,7 +14,7 @@ func main() {
 		topic        = getConfig("TOPIC", "mytopic")       // The topic to consume
 		verbose      = getConfig("VERBOSE", "false")       // Set to `true` if you want to turn on sarama logging
 	)
-	var messages chan string
+	messages := make(chan string)
 	saramaProducer := producer(kafkaService, kafkaPort, topic, messages, verbose == "true")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
