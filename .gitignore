@@ -14,3 +14,4 @@ gopath/src/golang.org/x/tools
 
 #Final binaries
 /service
+/kafka-console-producer

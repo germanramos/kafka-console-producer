@@ -10,16 +10,18 @@ import (
 
 func main() {
 	log.SetOutput(os.Stderr)
-	log.Print("kafka-console-producer v0.5.1")
+	log.Print("kafka-console-producer v0.6.0")
 	var (
 		kafkaService  = getConfig("KAFKA_SERVICE", "kafka") // The DNS name for input Kafka broker service
 		kafkaPort     = getConfig("KAFKA_PORT", "9092")     // Port to connect to input Kafka peers
-		topic         = getConfig("TOPIC", "mytopic")       // The topic to consume
+		topic         = getConfig("TOPIC", "mytopic")       // The topic to produce to
 		verbose       = getConfig("VERBOSE", "false")       // Set to `true` if you want to turn on sarama logging
 		finishTimeout = getConfig("FINISH_TIMEOUT", "1")    // Number of seconds to wait for exit after end of line is received
+		key           = getConfig("KEY", "")                // The key of produced messages. Default (empty) will produce in every topic
 	)
 	messages := make(chan string)
-	saramaProducer := producer(kafkaService, kafkaPort, topic, messages, verbose == "true")
+
+	saramaProducer := producer(kafkaService, kafkaPort, topic, messages, key, verbose == "true")
 	scanner := bufio.NewScanner(os.Stdin)
 	for scanner.Scan() {
 		event := scanner.Text()

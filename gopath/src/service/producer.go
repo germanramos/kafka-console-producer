@@ -14,6 +14,7 @@ func producer(kafkaService string,
 	kafkaPort string,
 	topic string,
 	messages chan string,
+	key string,
 	verbose bool) sarama.AsyncProducer {
 
 	var (
@@ -71,11 +72,19 @@ func producer(kafkaService string,
 	}()
 
 	// Read stdin for ever and publish messages
+	var producerKey sarama.Encoder
+	if key == "" {
+		producerKey = nil
+	} else {
+		producerKey = sarama.StringEncoder(key)
+	}
+
 	go func() {
 		for {
 			msg := <-messages
 			producerMessage := &sarama.ProducerMessage{
 				Topic: topic,
+				Key:   producerKey,
 				Value: sarama.StringEncoder(msg),
 			}
 			producer.Input() <- producerMessage
