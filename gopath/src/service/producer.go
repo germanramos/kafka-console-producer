@@ -7,12 +7,13 @@ import (
 	"os"
 	"time"
 
-	"gopkg.in/Shopify/sarama.v1"
+	sarama "gopkg.in/Shopify/sarama.v1"
 )
 
 func producer(kafkaService string,
 	kafkaPort string,
 	topic string,
+	partition int32,
 	messages chan string,
 	key string,
 	verbose bool) sarama.AsyncProducer {
@@ -47,6 +48,12 @@ func producer(kafkaService string,
 
 	//producer
 	config := sarama.NewConfig()
+	if partition >= 0 {
+		config.Producer.Partitioner = sarama.NewManualPartitioner
+	} else {
+		config.Producer.Partitioner = sarama.NewHashPartitioner
+		//config.Producer.Partitioner = sarama.NewRandomPartitioner
+	}
 	config.Producer.RequiredAcks = sarama.WaitForLocal  // The level of acknowledgement reliability needed from the broker
 	config.Producer.Timeout = 1000 * time.Millisecond   // The maximum duration the broker will wait the receipt of the number of RequiredAcks
 	config.Producer.Return.Errors = true                // If enabled, messages that failed to deliver will be returned on the Errors channel
@@ -83,9 +90,10 @@ func producer(kafkaService string,
 		for {
 			msg := <-messages
 			producerMessage := &sarama.ProducerMessage{
-				Topic: topic,
-				Key:   producerKey,
-				Value: sarama.StringEncoder(msg),
+				Topic:     topic,
+				Key:       producerKey,
+				Value:     sarama.StringEncoder(msg),
+				Partition: partition,
 			}
 			producer.Input() <- producerMessage
 		}

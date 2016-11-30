@@ -28,6 +28,7 @@ Use environment variables
 - KAFKA_SERVICE, "kafka", The DNS name for input Kafka broker service
 - KAFKA_PORT, "9092", Port to connect to input Kafka peers
 - TOPIC, "mytopic", The topic to consume
+- PARTITION, "", The partition to produce to. All if not defined.
 - VERBOSE, "false, Set to `true` if you want verbose output
 - KEY, "", The key of produced messages. Default (empty) will produce in every topic
 - FINISH_TIMEOUT", "1", Number of seconds to wait for exit after end of line is received
